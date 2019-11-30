@@ -1,7 +1,7 @@
 <?php
-require 'Report.php';
-$opts = getopt("strh", ['setting', 'topUp', 'report', 'help'], $optind);
-$report = new Report();
+require_once "TopUp.php";
+$opts = getopt("sth", ['setting', 'topUp', 'help'], $optind);
+$topUp = new TopUp();
 
 if (
     !array_key_exists('help', $opts)
@@ -31,25 +31,13 @@ if (array_key_exists('help', $opts)) {
     displayHelp();
 } else if (array_key_exists('topUp', $opts)) {
     echo <<<EOT
-
-    Mobile top up menu.
-
-
+\r\n\e[92m----------Mobile top up menu.----------\e[0m \r\n
 EOT;
-} else if (array_key_exists('report', $opts)) {
-    echo <<<EOT
-
-Printing reports.....
-
-EOT;
-
-    $report->exportPDF("12-01-19", "13-01-19");
+$topUp->topUp();
 } else if (array_key_exists('setting', $opts)) {
     echo <<<EOT
 
-    Configuration the program.
-
-
+    Configuration the program. \r\n
 EOT;
 } else {
     displayError();
@@ -58,15 +46,16 @@ EOT;
 function displayHelp()
 {
     echo <<<EOT
-Usage:php app.php [options]
+
+\r\nUsage:php app.php \e[92m[options]\e[0m
 Options:
 
-    -t|--topUp              Mobile top up menu.
-    -r|--report             Show all recored transections.
-    -s|--setting            Config the commition rate.
-    \e[32m-h|--help\e[0m               print this manual.                  
+    Options                   Description
 
-
+    \e[92m-t\e[0m | \e[92m--topUp\e[0m              Mobile top up menu.
+    \e[92m-s\e[0m | \e[92m--setting\e[0m            Config the commition rate.
+    \e[92m-h\e[0m | \e[92m--help\e[0m               print this manual.                  
+\r\n
 EOT;
 }
 
@@ -74,9 +63,9 @@ function displayError()
 {
     echo <<<EOT
     
-Invalid arguments!!!
-Usage the following command for help.
-app.php -h
+    \e[91mInvalid arguments!!!\e[0m \r\n
+    Used the following command for usage information.
+    \e[93mapp.php -h\e[0m
 
 
 EOT;
